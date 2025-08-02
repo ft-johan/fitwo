@@ -5,6 +5,7 @@ import { createClient } from '@/lib/client';
 import type { User } from '@supabase/supabase-js';
 
 import { Button } from "@/components/ui/button";
+import { Plus } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -80,7 +81,7 @@ export function AddMeasurementForm() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Add New Measurement</Button>
+        <Button variant="outline"><Plus /></Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         {/* The form tag now wraps the content and has the submit handler */}
