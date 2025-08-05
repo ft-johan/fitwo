@@ -76,24 +76,21 @@ export default function UserProfileForm() {
       return;
     }
 
-    // `upsert` will insert a new row if one doesn't exist (based on the primary key `user_id`),
-    // or update it if it does.
-    const { error } = await supabase.from('user_profiles').upsert({
-      user_id: user.id, // This is the primary key from your table
-      full_name: fullName,
-      date_of_birth: dateOfBirth,
-      gender: gender,
-      // `created_at` is handled by the database (timestampz default value)
-    });
+    const { error } = await supabase
+      .from('user_profiles')
+      .upsert({
+        user_id: user.id,
+        full_name: fullName,
+        date_of_birth: dateOfBirth,
+        gender: gender,
+      });
 
     if (error) {
       console.error('Error updating profile:', error.message);
       setMessage(`Error updating profile: ${error.message}`);
     } else {
-      router.push('/'); // Redirect to home page after successful update
+      router.push('/');
       setMessage('Profile updated successfully! ✅');
-
-
     }
   };
 

@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 
 export function AddMeasurementForm() {
   const supabase = createClient();
@@ -30,6 +31,7 @@ export function AddMeasurementForm() {
   const [waist, setWaist] = useState('');
   const [neck, setNeck] = useState('');
   const [hip, setHip] = useState(''); // Hip is often optional
+  const [activityLevel, setActivityLevel] = useState('');
 
   // Get the current user session
   useEffect(() => {
@@ -49,15 +51,21 @@ export function AddMeasurementForm() {
       return;
     }
 
-    // Insert a new record into the user_measurements table
-    const { error } = await supabase.from('user_measurements').insert({
+    // Prepare the data object with proper type conversions
+    const measurementData = {
       user_id: user.id,
-      weight: parseFloat(weight),
-      height: parseFloat(height),
-      waist: parseFloat(waist),
-      neck: parseFloat(neck),
-      hip: hip ? parseFloat(hip) : null, // Save as null if empty
-    });
+      weight: weight ? parseFloat(weight) : null,
+      height: height ? parseFloat(height) : null,
+      waist: waist ? parseFloat(waist) : null,
+      neck: neck ? parseFloat(neck) : null,
+      hip: hip ? parseFloat(hip) : null,
+      activity_level: activityLevel ? parseInt(activityLevel, 10) : null, // Ensure base 10 parsing
+    };
+
+    console.log('Submitting measurement data:', measurementData); // Debug log
+
+    // Insert a new record into the user_measurements table
+    const { error } = await supabase.from('user_measurements').insert(measurementData);
 
     if (error) {
       console.error('Error inserting measurement:', error);
@@ -70,6 +78,7 @@ export function AddMeasurementForm() {
       setWaist('');
       setNeck('');
       setHip('');
+      setActivityLevel('');
       // Close the dialog after a short delay
       setTimeout(() => {
         setOpen(false);
@@ -103,7 +112,6 @@ export function AddMeasurementForm() {
                 value={weight}
                 onChange={(e) => setWeight(e.target.value)}
                 className="col-span-3"
-                required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -116,7 +124,6 @@ export function AddMeasurementForm() {
                 value={height}
                 onChange={(e) => setHeight(e.target.value)}
                 className="col-span-3"
-                required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -129,7 +136,6 @@ export function AddMeasurementForm() {
                 value={waist}
                 onChange={(e) => setWaist(e.target.value)}
                 className="col-span-3"
-                required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -142,7 +148,6 @@ export function AddMeasurementForm() {
                 value={neck}
                 onChange={(e) => setNeck(e.target.value)}
                 className="col-span-3"
-                required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -158,6 +163,23 @@ export function AddMeasurementForm() {
                 className="col-span-3"
               />
             </div>
+          </div>
+          <div className='grid gap-3'>
+            <Label htmlFor="activity_level">Activity Level</Label>
+            <Select
+              value={activityLevel}
+              onValueChange={(value) => setActivityLevel(value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Choose one" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="1">1 - Sedentary</SelectItem>
+                <SelectItem value="2">2 - Lightly Active</SelectItem>
+                <SelectItem value="3">3 - Moderately Active</SelectItem>
+                <SelectItem value="4">4 - Very Active</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Display feedback message */}
