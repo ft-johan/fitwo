@@ -1,5 +1,6 @@
 import { AddMeasurementForm} from "@/components/add-measurements-form";
 import Bento from "@/components/dasboard-bento";
+import { RealtimeChat } from "@/components/realtime-chat";
 import { Greeting } from "@/components/ui/greeting";
 
 export default function Home() {
@@ -9,6 +10,9 @@ export default function Home() {
           <div className="flex flex-1 flex-col justify-center items-center w-full  gap-2">
             <div className=" md:min-w-8xl w-full max-w-7xl flex flex-col gap-4">
             <Bento />
+<RealtimeChat roomName="my-chat-room" username="john_doe" />
+
+
             </div>
           </div>
         </div>
