@@ -20,7 +20,7 @@ import { LogoutButton } from "./logout-button";
 
 const DATA = {
   navbar: [
-    { href: "/dashboard", icon: Home, label: "Dashboard" },
+    { href: "/", icon: Home, label: "Dashboard" },
     { href: "/analytics", icon: BarChart3, label: "Analytics" },
     { href: "/add-measurement", icon: Plus, label: "Add Data" },
     { href: "/profile", icon: User, label: "Profile" },

@@ -11,11 +11,6 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useRouter } from 'next/navigation';
 // Define a type for our profile data for type safety
-type Profile = {
-  full_name: string | null;
-  gender: string | null;
-  date_of_birth: string | null;
-};
 
 export default function UserProfileForm() {
   const router = useRouter();
